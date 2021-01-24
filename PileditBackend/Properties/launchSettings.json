@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "PileditBackend": {
+      "commandName": "Project",
+      "commandLineArgs": "--debug"
+    }
+  }
+}
