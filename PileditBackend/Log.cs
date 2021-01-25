@@ -61,7 +61,7 @@ namespace PileditBackend
                         Console.WriteLine(output);
                         break;
                     case LogType.Info:
-                        if (MESystem.ConsoleInfo) Console.WriteLine(output);
+                        if (PileditSystem.ConsoleInfo) Console.WriteLine(output);
                         break;
                 }
                 Debug.WriteLine($"[{date}]{output}");
