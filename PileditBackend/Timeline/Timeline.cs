@@ -21,14 +21,14 @@ namespace PileditBackend.TL
 
         public Timeline()
         {
-            Objects = Array.Empty<Dictionary<FrameInfo, TimelineObject>>();
+            Objects = new Dictionary<FrameInfo, TimelineObject>[10];
         }
 
         public void AddObject(ushort layer, FrameInfo frame, TimelineObject obj)
         {
             var objs = Objects;
-            if (LayerCount < layer) Array.Resize(ref objs, LayerCount);
-            else if (objs[layer].ContainsKey(frame)) return;
+            //if (LayerCount < layer) Array.Resize(ref objs, LayerCount);
+            //else if (objs[layer].ContainsKey(frame)) return;
             objs[layer] = new Dictionary<FrameInfo, TimelineObject>(objs[layer]) { { frame, obj } };
             Objects = objs;
         }
