@@ -1,6 +1,6 @@
 # Piledit (Back-end)
 <div align="center">
-<img src="logo.png" alt="piledit-icon" title="piledit-icon">
+<img src="https://raw.githubusercontent.com/Motionline/Piledit-FrontEnd/master/logo.png" alt="piledit-icon" title="piledit-icon">
 </div>
 
 [![SecHack365](https://img.shields.io/badge/SecHack365-2020-ffd700.svg)](https://sechack365.nict.go.jp/)
