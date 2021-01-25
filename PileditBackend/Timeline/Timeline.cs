@@ -18,10 +18,14 @@ namespace PileditBackend.TL
         }
         private IReadOnlyDictionary<FrameInfo, TimelineObject>[] Objects;
         public int LayerCount { get => Objects.Length; }
+        public IReadOnlyDictionary<string, TimelineComponent> ComponentList { get; private set; }
 
         public Timeline()
         {
-            Objects = new Dictionary<FrameInfo, TimelineObject>[10];
+            var objs = new Dictionary<FrameInfo, TimelineObject>[10];
+            for (int i = 0; i < 10; i++) objs[i] = new();
+            Objects = objs;
+            ComponentList = new Dictionary<string, TimelineComponent>();
         }
 
         public void AddObject(ushort layer, FrameInfo frame, TimelineObject obj)
@@ -40,6 +44,12 @@ namespace PileditBackend.TL
         {
             var dic = Objects[layer];
             return dic.ContainsKey(frame) ? dic[layer] : null;
+        }
+
+        public void RegistComponent(string uuid, TimelineComponent tc)
+        {
+            if (ComponentList.ContainsKey(uuid)) return;
+            ComponentList = new Dictionary<string, TimelineComponent>(ComponentList) { { uuid, tc } };
         }
 
         public Mat GetMat(uint frame)
