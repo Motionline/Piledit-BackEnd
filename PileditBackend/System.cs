@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 
 namespace PileditBackend
 {
-    public static class MESystem
+    public static class PileditSystem
     {
         internal enum FileType
         {
