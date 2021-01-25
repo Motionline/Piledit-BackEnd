@@ -6,27 +6,7 @@ using System.Threading.Tasks;
 
 namespace PileditBackendServer.Models
 {
-    public class EditJson
-    {
-        public EditClip Clips { get; set; }
-        public List<EditComponent> Components { get; set; }
-    }
-
-    public class EditClip
-    {
-        public string Uuid { get; set; }
-        public string Name { get; set; }
-        public PositionInfo Position { get; set; }
-        public uint Width { get; set; }
-    }
-
-    public class EditComponent
-    {
-        public string Uuid { get; set; }
-        public List<EditBlockBase> Blocks { get; set; }
-    }
-
-    public class EditBlockBase
+    public class ComponentBlockBase
     {
         public string Uuid { get; set; }
         public string Name { get; set; }
@@ -35,12 +15,12 @@ namespace PileditBackendServer.Models
         public string ParentUuid { get; set; }
     }
 
-    public class MovieLoadingBlock : EditBlockBase
+    public class MovieLoadingBlock : ComponentBlockBase
     {
         public string MaterialPath { get; set; }
     }
 
-    public class GrayScaleFilterBlock : EditBlockBase
+    public class GrayScaleFilterBlock : ComponentBlockBase
     {
         public string MaterialPath { get; set; }
     }
