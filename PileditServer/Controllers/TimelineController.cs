@@ -29,9 +29,7 @@ namespace PileditBackendServer.Controllers
             if (!ServerData.ProjectList.ContainsKey(id)) return NotFound();
 
             var project = ServerData.ProjectList[id];
-            var components = (JObject)json["components"];
-            var clips = (JObject)json["clips"];
-            foreach (var comp in components.Children<JProperty>())
+            foreach (var comp in json["components"].Children<JProperty>())
             {
                 var c = comp.Value.ToObject<JObject>();
                 var cid = comp.Name;
@@ -40,7 +38,7 @@ namespace PileditBackendServer.Controllers
                 List<PrintEffectBase> list = new();
                 foreach (var block in c["blocks"].Children<JProperty>())
                 {
-                    var b = block.Value.ToObject<EditBlockBase>();
+                    var b = block.Value.ToObject<ComponentBlockBase>();
                     if (b.Kind == "DefineComponentBlock")
                     {
                         if (def) return BadRequest();
@@ -59,8 +57,15 @@ namespace PileditBackendServer.Controllers
                     }
                 }
                 var tc = new TimelineComponent(new(0, 0), project.OutputSize, list.ToArray(), tpo);
-                var frame = new FrameInfo(clips[cid]["startFrame"].ToObject<uint>(), clips[cid]["endFrame"].ToObject<uint>());
-                project.Timeline.AddObject(clips[cid]["Layer"].ToObject<ushort>(), frame, tc);
+                project.Timeline.RegistComponent(comp.Name, tc);
+            }
+
+            foreach (var clip in json["clips"].Children<JProperty>())
+            {
+                var c = clip.Value;
+                project.Timeline.AddObject(c["layer"].Value<ushort>(),
+                    new(c["frame"]["begin"].Value<uint>(), c["frame"]["end"].Value<uint>()),
+                    project.Timeline.ComponentList[c["componentUuid"].Value<string>()]);
             }
             return Ok();
         }
