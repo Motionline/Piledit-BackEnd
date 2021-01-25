@@ -44,7 +44,8 @@ namespace PileditBackendServer.Controllers
                     if (b.Kind == "DefineComponentBlock")
                     {
                         if (def) return BadRequest();
-                        else continue;
+                        def = true;
+                        continue;
                     }
                     if (!def) return BadRequest();
 
