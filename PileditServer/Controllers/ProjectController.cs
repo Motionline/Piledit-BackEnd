@@ -16,25 +16,25 @@ namespace PileditBackendServer.Controllers
         [HttpPost]
         public IActionResult CreateProject(ProjectRequest req)
         {
-            if (ServerData.ProjectList.ContainsKey(req.ProjectUuid)) return NotFound();
+            if (ServerData.ProjectList.ContainsKey(req.Uuid)) return NotFound();
 
-            var p = Project.Create(req.ProjectName, new(req.SizeX, req.SizeY));
-            ServerData.ProjectList.Add(req.ProjectUuid, p);
+            var p = Project.Create(req.Name, new(req.SizeX, req.SizeY));
+            ServerData.ProjectList.Add(req.Uuid, p);
             return Ok();
         }
 
         [HttpGet]
         public IActionResult GetProject(ProjectRequest req)
         {
-            return ServerData.ProjectList.ContainsKey(req.ProjectUuid) ? Ok() : NotFound();
+            return ServerData.ProjectList.ContainsKey(req.Uuid) ? Ok() : NotFound();
         }
 
         [HttpDelete]
         public IActionResult DeleteProject(ProjectRequest req)
         {
-            if (!ServerData.ProjectList.ContainsKey(req.ProjectUuid)) return NotFound();
+            if (!ServerData.ProjectList.ContainsKey(req.Uuid)) return NotFound();
 
-            ServerData.ProjectList.Remove(req.ProjectUuid);
+            ServerData.ProjectList.Remove(req.Uuid);
             return Ok();
         }
     }

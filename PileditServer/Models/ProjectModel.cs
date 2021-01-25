@@ -7,8 +7,8 @@ namespace PileditBackendServer.Models
 {
     public class ProjectRequest
     {
-        public string ProjectName { get; set; }
-        public string ProjectUuid { get; set; }
+        public string Name { get; set; }
+        public string Uuid { get; set; }
         public double SizeX { get; set; }
         public double SizeY { get; set; }
     }
