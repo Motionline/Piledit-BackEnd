@@ -16,7 +16,7 @@ namespace PileditBackendServer.Controllers
         [HttpPost]
         public IActionResult CreateProject(ProjectRequest req)
         {
-            if (ServerData.ProjectList.ContainsKey(req.Uuid)) return NotFound();
+            if (ServerData.ProjectList.ContainsKey(req.Uuid)) return BadRequest();
 
             var p = Project.Create(req.Name, new(req.SizeX, req.SizeY));
             ServerData.ProjectList.Add(req.Uuid, p);
