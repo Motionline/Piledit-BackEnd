@@ -43,7 +43,8 @@ namespace PileditBackend.TL
         public TimelineObject GetObject(ushort layer, FrameInfo frame)
         {
             var dic = Objects[layer];
-            return dic.ContainsKey(frame) ? dic[layer] : null;
+            var nf = dic.Keys.FirstOrDefault(f => new FrameInfo.FrameInfoComparer().Equals(frame, f));
+            return nf != new FrameInfo(0, 0) ? dic[nf] : null;
         }
 
         public void RegistComponent(string uuid, TimelineComponent tc)
@@ -60,6 +61,17 @@ namespace PileditBackend.TL
                 var obj = GetObject((ushort)i, frame);
                 Mat src;
                 if (obj == null) continue;
+                else if (obj is TimelineComponent tc)
+                {
+                    src = tc.GetMat(frame);
+                    if (src == null)
+                    {
+                        if (mat == null) continue;
+                        else src = mat.Clone();
+                    }
+
+                    foreach (var e in tc.Effects) e.Processing(src);
+                }
                 else if (obj is TimelinePrintObject tpo)
                 {
                     var fi = Objects[i].FirstOrDefault(c => c.Value == obj).Key;
@@ -79,17 +91,6 @@ namespace PileditBackend.TL
                         Cv2.BitwiseOr(mat, res, nm);
                         mat = nm;
                     }
-                }
-                else if (obj is TimelineComponent tc)
-                {
-                    src = tc.GetMat(frame);
-                    if (src == null)
-                    {
-                        if (mat == null) continue;
-                        else src = mat.Clone();
-                    }
-
-                    foreach (var e in tc.Effects) e.Processing(src);
                 }
                 else continue;
 
