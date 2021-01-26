@@ -55,7 +55,7 @@ namespace PileditBackend.TL
         public TimelineMovie(PositionInfo pos, string path, Size size, FrameInfo? frame = null, double speed = 1.0)
             : base(TimelineObjectType.Movie, pos, size)
         {
-            if (File.Exists(path) && IsMovie(path))
+            if (File.Exists(path))// && IsMovie(path))
             {
                 FilePath = path;
                 mov = new VideoCapture(FilePath);
@@ -536,12 +536,12 @@ namespace PileditBackend.TL
 
     public abstract class TimelinePrintObject : TimelineObject
     {
-        public new IReadOnlyList<PrintEffectBase> Effects { get; private set; }
+        public new IReadOnlyList<PrintEffectBase> Effects { get; private set; } = new List<PrintEffectBase>();
         //public List<FilterBase> Filter { get; private set; }
         public Size DisplaySize { get; set; }
 
         public TimelinePrintObject(TimelineObjectType type, PositionInfo pos, Size size)
-            : base(type, pos) { }
+            : base(type, pos) { DisplaySize = size; }
 
         public abstract Mat GetMat(uint frame);
 
