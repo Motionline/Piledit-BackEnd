@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Text.Json.Serialization;
 
@@ -49,12 +50,26 @@ namespace PileditBackend.TL
         }
         public bool Equals(FrameInfo frame)
         {
-            if (frame.Length == 0) return Begin <= frame.Begin && frame.Begin <= End;
-            else return Begin == frame.Begin && End == frame.End;
+            return Begin == frame.Begin && End == frame.End;
         }
         public override int GetHashCode()
         {
             return HashCode.Combine(Begin, End);
+        }
+
+        internal class FrameInfoComparer : IEqualityComparer<FrameInfo>
+        {
+            public bool Equals(FrameInfo f1, FrameInfo f2)
+            {
+                if (f1.Length == 0) return f2.Begin <= f1.Begin && f1.Begin <= f2.End;
+                else if (f2.Length == 0) return f1.Begin <= f2.Begin && f2.Begin <= f1.End;
+                else return f2.Begin == f1.Begin && f2.End == f1.End;
+            }
+
+            public int GetHashCode(FrameInfo f)
+            {
+                return 0;
+            }
         }
     }
     public struct PositionInfo : IEquatable<PositionInfo>
