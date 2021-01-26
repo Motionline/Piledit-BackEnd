@@ -58,15 +58,16 @@ namespace PileditBackend.IO
             if (!path.EndsWith(extention, CurrentCulture)) path += extention;
             var size = project.OutputSize;
             var tl = project.Timeline;
-            double fps = 60;//cap.Get(Fps);
-            var framec = 10;
+            double fps = 60;
+            var framec = 100;
             using VideoWriter vw = new VideoWriter(path, cc, fps, size);
             Mat frame;
             for(uint i = 0; i < framec; i++)
             {
                 frame = tl.GetMat(i);
+                if (frame == null) continue;
                 vw.Write(frame);
-                Log.Progress("Outputing Movie", (i + 1) / framec * 100);
+                Log.Progress("Outputing Movie:", (i + 1) / framec * 100);
             }
         }
     }
