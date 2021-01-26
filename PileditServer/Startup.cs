@@ -15,17 +15,13 @@ namespace PileditBackendServer
 {
     public class Startup
     {
-        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
-
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
 
             services.AddCors(options =>
             {
-                options.AddPolicy(name: MyAllowSpecificOrigins,
+                options.AddPolicy(name: "PileditOrigins",
                                   builder =>
                                   {
                                       builder
@@ -41,7 +37,6 @@ namespace PileditBackendServer
             });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -54,7 +49,6 @@ namespace PileditBackendServer
 
             app.UseCors(
                 options => options.AllowAnyMethod().AllowAnyHeader().AllowCredentials().WithOrigins("http://localhost:8080")
-                // options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()
             );
 
             app.UseForwardedHeaders(new ForwardedHeadersOptions
