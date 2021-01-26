@@ -1,13 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PileditBackend;
 using OpenCvSharp;
-using OpenCvSharp.Extensions;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using PileditBackendServer.Models;
 using PileditBackend.IO;
 using PileditServer.Models;
 
