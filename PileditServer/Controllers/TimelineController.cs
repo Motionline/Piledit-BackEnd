@@ -1,14 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using PileditBackend;
 using PileditBackend.Effects;
 using PileditBackend.TL;
 using PileditBackendServer.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Dynamic;
 using Newtonsoft.Json.Linq;
 using System.Text.Json;
 
@@ -47,11 +42,12 @@ namespace PileditBackendServer.Controllers
                     }
                     if (!def) return BadRequest();
 
-                    if (b is MovieLoadingBlock mlb)
+                    if (b.Kind == "MovieLoadingBlock")
                     {
+                        var mlb = block.Value.ToObject<MovieLoadingBlock>();
                         tpo = new TimelineMovie(new(0, 0), mlb.MaterialPath, project.OutputSize);
                     }
-                    else if (b is GrayScaleFilterBlock)
+                    else if (b.Kind == "GrayScaleFilterBlock")
                     {
                         list.Add(PrintEffect.COLORCONVERT(OpenCvSharp.ColorConversionCodes.GRAY2BGR));
                     }
